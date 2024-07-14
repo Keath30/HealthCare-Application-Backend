@@ -2,6 +2,19 @@ import java.util.Date;
 
 
 public abstract class Appointment {
+
+    private Doctor doctor;
+    private Patient patient;
+    private Date date;
+    private String time;
+
+    public Appointment(Doctor doctor, Patient patient, Date date, String time) {
+        this.doctor = doctor;
+        this.patient = patient;
+        this.date = date;
+        this.time = time;
+    }
+
     public Doctor getDoctor() {
         return doctor;
     }
@@ -31,18 +44,6 @@ public abstract class Appointment {
     }
 
     public void setTime(String time) {
-        this.time = time;
-    }
-
-    private Doctor doctor;
-    private Patient patient;
-    private Date date;
-    private String time;
-
-    public Appointment(Doctor doctor, Patient patient, Date date, String time) {
-        this.doctor = doctor;
-        this.patient = patient;
-        this.date = date;
         this.time = time;
     }
 
