@@ -4,15 +4,6 @@ public class Main {
     static boolean option = true;
 
     public static void main(String[] args) {
-        Patient patient = new Patient("A1","Kevin","12345");
-        Doctor doctor = new Doctor(111,"nick","123","neurologist","123456");
-        Patient patient2 = new Patient("A2","Kate","12345");
-        Doctor doctor2 = new Doctor(123,"sid","123","physician","123456");
-        Controller.allDoctors.add(doctor);
-        Controller.patientList.add(patient);
-        Controller.allDoctors.add(doctor2);
-        Controller.patientList.add(patient2);
-
         Scanner scanner = new Scanner(System.in);
 
         do {
