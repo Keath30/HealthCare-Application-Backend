@@ -2,7 +2,6 @@ import java.util.*;
 
 public class Controller {
     public static ArrayList<Doctor> allDoctors = new ArrayList<>();
-
     public static ArrayList<Patient> patientList = new ArrayList<>();
     public static int NUMBER_OF_SLOTS = 5;
 
@@ -30,6 +29,7 @@ public class Controller {
         Doctor selectedDoctor = null;
 
         System.out.println("Enter doctor ID to add availability: ");
+        checkInputType(scanner);
         int docID = scanner.nextInt();
 
         //loop through the arraylist to fetch the doctor
@@ -60,6 +60,10 @@ public class Controller {
     }
 
     public static void viewDoctors() {
+        if (allDoctors.isEmpty()) {
+            System.out.println("No Doctors Available\n");
+            return;
+        }
         for (Doctor doc : Controller.allDoctors) {
             System.out.println(doc.getName() + " has a specialization of " + doc.getSpecialization() + "\nId: " + doc.getDoctorId() + "\nAvailabilities: " + doc.getAvailabilities() + "\n");
         }
@@ -80,6 +84,7 @@ public class Controller {
 
         Patient patient = new Patient(patientID, name, contactNum);
         patientList.add(patient);
+        System.out.println("Registration Successful\n");
 
     }
 
@@ -88,7 +93,7 @@ public class Controller {
         String appointmentType = scanner.next().toUpperCase();
 
         //Validating the input
-        if (!(appointmentType.charAt(0) == 'G' || appointmentType.charAt(0) == 'R')){
+        if (!(appointmentType.charAt(0) == 'G' || appointmentType.charAt(0) == 'R')) {
             System.out.println("Invalid Input\n");
             return;
         }
@@ -116,7 +121,7 @@ public class Controller {
 
         //Validating user inputs for doctor ID and patient ID
         if (selectedPatient == null || selectedDoctor == null) {
-            System.out.println("Invalid ID");
+            System.out.println("Invalid Doctor/Patient ID\n");
             return;
         }
 
@@ -143,20 +148,14 @@ public class Controller {
                     System.out.println("Enter referral doctor notes: ");
                     String referralDoctorNotes = scanner.next();
 
-
                     appointment = new ReferralAppointments(selectedDoctor, selectedPatient, appointmentDate, "", referedDoctor, notes, referralDoctorNotes);
 
-                } else if (appointmentType.charAt(0) == 'G') {
+                } else
                     appointment = new GeneralAppointments(selectedDoctor, selectedPatient, appointmentDate, "", notes);
-
-                } else {
-                    System.out.println("Invalid Input");
-                    return;
-                }
 
                 selectedDoctor.setAppointment(appointment, appointmentDate);
 
-                for (Map.Entry<Date, ArrayList<Appointment>> app : selectedDoctor.getAllAppointments().entrySet()){
+                for (Map.Entry<Date, ArrayList<Appointment>> app : selectedDoctor.getAllAppointments().entrySet()) {
                     System.out.println(appointmentDate + " - " + app.getValue().toString());
 
                 }
@@ -165,10 +164,8 @@ public class Controller {
             }
 
         } else {
-            System.out.println("Doctor is not available on " + appointmentDate);
+            System.out.println("Doctor is not available on " + appointmentDate + "\n");
         }
-
-
     }
 
     public static Patient getPatient(String patientID) {
@@ -178,7 +175,6 @@ public class Controller {
             }
         }
         return null;
-
     }
 
     public static Doctor getDoctor(int doctorID) {
@@ -218,18 +214,19 @@ public class Controller {
         return "17 : 00";
     }
 
-    public static void viewBookings(Scanner scanner){
+    public static void viewBookings(Scanner scanner) {
         System.out.println("Enter the Doctor ID: ");
+        checkInputType(scanner);
         int doctorID = scanner.nextInt();
 
         //Validating the user input for doctor ID
         Doctor selectedDoctor = getDoctor(doctorID);
-        if (selectedDoctor == null){
+        if (selectedDoctor == null) {
             System.out.println("Invalid ID\n");
             return;
         }
 
-        System.out.println("Bookings for doctor with ID "+ doctorID + " -> \n" );
+        System.out.println("Bookings for doctor with ID " + doctorID + " -> \n");
 
         for (Map.Entry<Date, ArrayList<Appointment>> appointment : selectedDoctor.getAllAppointments().entrySet()) {
             System.out.println(appointment.getKey() + " : " + appointment.getValue() + "\n");
@@ -238,15 +235,11 @@ public class Controller {
 
 
     //Validating the input type
-    public static void checkInputType(Scanner scanner){
-        while (!scanner.hasNextInt()){
+    public static void checkInputType(Scanner scanner) {
+        while (!scanner.hasNextInt()) {
             System.out.println("Please enter a valid input: ");
             scanner.next();
         }
     }
-
-
-
-
 }
 
